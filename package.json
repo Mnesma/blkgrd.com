@@ -1,0 +1,29 @@
+{
+    "name": "blkgrd",
+    "version": "1.0.0",
+    "private": true,
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "dev": "concurrently \"npm run dev:logger\" \"npm run dev:server\" \"npm run dev:frontend\"",
+        "dev:logger": "npm run dev -w @blkgrd/logger",
+        "dev:server": "npm run dev -w @blkgrd/server",
+        "dev:frontend": "npm run dev -w @blkgrd/frontend",
+        "build": "npm run build:logger && npm run build:server && npm run build:frontend",
+        "build:logger": "npm run build -w @blkgrd/logger",
+        "build:server": "npm run build -w @blkgrd/server",
+        "build:frontend": "npm run build -w @blkgrd/frontend",
+        "db:generate": "npm run db:generate -w @blkgrd/server",
+        "db:push": "npm run db:push -w @blkgrd/server",
+        "db:migrate": "npm run db:migrate -w @blkgrd/server",
+        "db:migrate:deploy": "npm run db:migrate:deploy -w @blkgrd/server",
+        "db:migrate:reset": "npm run db:migrate:reset -w @blkgrd/server",
+        "db:studio": "npm run db:studio -w @blkgrd/server",
+        "maple-ranking:update": "npm run start -w @blkgrd/maplestory-ranking-updater",
+        "maple-ranking:update:build": "npm run build -w @blkgrd/maplestory-ranking-updater"
+    },
+    "devDependencies": {
+        "concurrently": "~9.2.1"
+    }
+}

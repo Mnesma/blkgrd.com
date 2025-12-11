@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String   @id @default(cuid())
+  discordId   String   @unique
+  username    String
+  displayName String
+  avatar      String?
+  email       String?
+  roles       String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MapleCharacter {
+  id              String   @id @default(cuid())
+  ocid            String   @unique // MapleStory character unique identifier
+  characterName   String
+  worldName       String
+  className       String
+  classLevel      String   // e.g. "4th", "5th", "6th"
+  level           Int
+  exp             BigInt
+  expPercent      Float
+  legionLevel     Int
+  globalRank      Int?
+  classRank       Int?
+  avatarUrl       String?
+  guildName       String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  history         MapleCharacterHistory[]
+  
+  @@index([characterName])
+}
+
+model MapleCharacterHistory {
+  id              String          @id @default(cuid())
+  characterId     String
+  character       MapleCharacter  @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  level           Int
+  exp             BigInt
+  expPercent      Float
+  legionLevel     Int
+  globalRank      Int?
+  classRank       Int?
+  recordedAt      DateTime        @default(now())
+  
+  @@index([characterId, recordedAt])
+}
